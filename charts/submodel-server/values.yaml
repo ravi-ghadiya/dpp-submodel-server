@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  name: submodel-server
+  repository: submodel-server
   pullPolicy: Never
   tag: "latest"
 
@@ -66,10 +66,12 @@ resources:
     memory: 128Mi
 
 configmap:
+  create: true
   data:
     APPLICATION_PORT: 8080
     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/trace-BE
 secret:
+  create: true
   data:
     SPRING_DATASOURCE_USERNAME: <path:submodel-server/data/database#user>
     SPRING_DATASOURCE_PASSWORD: <path:submodel-server/data/database#password>
