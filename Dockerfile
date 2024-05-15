@@ -1,13 +1,13 @@
 FROM gradle:7.5-jdk17-alpine AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon -i -x test -x javadoc
+COPY --chown=gradle:gradle . /home/app
+WORKDIR /home/app
+RUN gradle clean build --no-daemon -i -x test -x javadoc
 
 FROM openjdk:17-alpine
-RUN mkdir /home/app
-COPY --from=build /home/gradle/src/build/libs/wrapper-0.0.1-SNAPSHOT.jar /home/app
-WORKDIR /home/app
-RUN apk add --update \
-    curl \
-    && rm -rf /var/cache/apk/*
-CMD java -Djava.security.egd=file:/dev/./urandom $MEMORY_LIMIT -jar wrapper-0.0.1-SNAPSHOT.jar
+COPY --from=build /home/app/build/libs/submodel-server-0.0.1-SNAPSHOT.jar /usr/local/lib/ss/app.jar
+RUN apk update
+RUN addgroup -S sw && adduser -S sw -G sw
+USER sw
+WORKDIR /usr/local/lib/ss
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]

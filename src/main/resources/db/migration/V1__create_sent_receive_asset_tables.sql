@@ -16,3 +16,12 @@ CREATE TABLE receive_asset_details (
     created_date timestamp NOT NULL,
     CONSTRAINT receive_asset_details_pk PRIMARY KEY (id)
 );
+
+
+CREATE TABLE provider_submodel_data (
+  id VARCHAR(255) NOT NULL,
+   data TEXT,
+   submodel_identifier VARCHAR(255),
+   created_date TIMESTAMP WITHOUT TIME ZONE,
+   CONSTRAINT pk_provider_submodel_data PRIMARY KEY (id)
+);
