@@ -68,7 +68,7 @@ resources:
 configmap:
   create: true
   data:
-    APPLICATION_PORT: 8080
+    APPLICATION_PORT: "8080"
     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/trace-BE
 secret:
   create: true
